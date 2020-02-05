@@ -27,7 +27,6 @@ public:
     void Print(ostream& ost) const;
 
 private:
-    //map<Date, vector<string>> db;
     multimap<Date, string> it_db;
 };
 

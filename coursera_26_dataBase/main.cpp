@@ -22,7 +22,7 @@ void TestAll();
 
 int main()
 {
-    TestAll();
+    //TestAll();
 
     Database db;
 
@@ -42,8 +42,8 @@ int main()
             auto predicate = [condition](const Date& date, const string& event) {
                 return condition->Evaluate(date, event);
             };
-            //            int count = db.RemoveIf(predicate);
-            //            cout << "Removed " << count << " entries" << endl;
+            int count = db.RemoveIf(predicate);
+            cout << "Removed " << count << " entries" << endl;
         } else if (command == "Find") {
             auto condition = ParseCondition(is);
             auto predicate = [condition](const Date& date, const string& event) {
@@ -89,9 +89,10 @@ void TestParseEvent()
     }
 }
 
-void TestAll()
-{
-    TestRunner tr;
-    tr.RunTest(TestParseEvent, "TestParseEvent");
-    tr.RunTest(TestParseCondition, "TestParseCondition");
-}
+//void TestAll()
+//{
+//    TestRunner tr;
+//    tr.RunTest(TestParseEvent, "TestParseEvent");
+//    tr.RunTest(TestParseCondition, "TestParseCondition");
+//    tr.RunTest(TestDatabase, "TestDatabase");
+//}

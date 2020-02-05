@@ -24,10 +24,18 @@ bool DateComparisonNode::Evaluate(const Date& date, const string& event) const
 bool EventComparisonNode::Evaluate(const Date& date, const string& event) const
 {
     switch (cmp) {
+    case Comparison::Less:
+        return event < event_;
+    case Comparison::LessOrEqual:
+        return event <= event_;
+    case Comparison::Greater:
+        return event > event_;
+    case Comparison::GreaterOrEqual:
+        return event >= event_;
     case Comparison::Equal:
-        return event_ == event;
+        return event == event_;
     case Comparison::NotEqual:
-        return event_ != event;
+        return event != event_;
     }
     return 0;
 }
@@ -44,5 +52,5 @@ bool LogicalOperationNode::Evaluate(const Date& date, const string& event) const
 
 bool EmptyNode::Evaluate(const Date& date, const string& event) const
 {
-    return 0;
+    return 1;
 }
