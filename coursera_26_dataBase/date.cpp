@@ -65,27 +65,6 @@ istream& operator>>(istream& ist, Date& date)
     return ist;
 }
 
-//istream& operator>>(istream& ist, Date& date)
-//{
-//    if (ist) {
-//        string DATE;
-//        ist >> DATE;
-//        stringstream ss(DATE);
-//        int yy, mm, dd;
-//        char ch0 = '.', ch1 = '.';
-//        ss >> yy >> ch0 >> mm >> ch1 >> dd;
-//        if (ch0 != '-' || ch1 != '-' || !ss.eof())
-//            throw runtime_error("Wrong date format: " + DATE);
-//        stringstream ssc(DATE);
-//        int y, m, d;
-//        ssc >> y >> ch0 >> m >> ch1 >> d;
-//        if (y != yy || m != mm || d != dd)
-//            throw runtime_error("Wrong date format: " + DATE);
-//        date = { yy, mm, dd };
-//    }
-//    return ist;
-//}
-
 ostream& operator<<(ostream& ost, const Date& date)
 {
     ost << setw(4) << setfill('0') << date.getYear() << '-'
