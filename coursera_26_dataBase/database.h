@@ -27,7 +27,7 @@ public:
     void Print(ostream& ost) const;
 
 private:
-    map<Date, vector<string>> db;
+    map<Date, pair<vector<string>, set<string>>> db;
 };
 
 #endif // DATABASE_H

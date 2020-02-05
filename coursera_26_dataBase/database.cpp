@@ -3,18 +3,19 @@ using namespace std;
 
 void Database::Add(const Date& date, const string& event)
 {
-    if (find(db[date].begin(), db[date].end(), event) == db[date].end())
-        db[date].push_back(event);
+    if (db[date].second.emplace(event).second)
+        db[date].first.push_back(event);
 }
 
 int Database::RemoveIf(function<bool(Date, string)> foo)
 {
     int size = 0;
-    for (auto& [data, vector_] : db) {
+    for (auto& [date, vector_] : db) {
         vector<string> strToDel;
-        for (auto& str : vector_)
-            if (foo(data, str)) {
+        for (auto& str : vector_.first)
+            if (foo(date, str)) {
                 strToDel.push_back(str);
+                db[date].second.erase(str);
                 ++size;
             }
         if (!strToDel.empty()) {
@@ -24,12 +25,12 @@ int Database::RemoveIf(function<bool(Date, string)> foo)
                         return true;
                 return false;
             };
-            auto itDel = remove_if(vector_.begin(), vector_.end(), del);
-            vector_.erase(itDel, vector_.end());
+            auto itDel = remove_if(vector_.first.begin(), vector_.first.end(), del);
+            vector_.first.erase(itDel, vector_.first.end());
         }
     }
     for (auto first = db.begin(); first != db.end();) {
-        if (first->second.empty())
+        if (first->second.first.empty())
             first = db.erase(first);
         else
             ++first;
@@ -41,7 +42,7 @@ vector<string> Database::FindIf(function<bool(Date, string)> foo) const
 {
     vector<string> toPrint;
     for (const auto& vector_ : db)
-        for (const auto& item : vector_.second)
+        for (const auto& item : vector_.second.first)
             if (foo(vector_.first, item))
                 toPrint.push_back(vector_.first.str() + ' ' + item);
     return toPrint;
@@ -57,12 +58,12 @@ string Database::Last(const Date& date) const
     }
     if (found == db.end())
         --found;
-    return found->first.str() + ' ' + found->second.back();
+    return found->first.str() + ' ' + found->second.first.back();
 }
 
 void Database::Print(ostream& ost) const
 {
     for (const auto& vector_ : db)
-        for (const auto& item : vector_.second)
+        for (const auto& item : vector_.second.first)
             ost << vector_.first << " " << item << endl;
 }
