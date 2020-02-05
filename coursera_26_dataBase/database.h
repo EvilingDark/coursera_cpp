@@ -27,7 +27,7 @@ public:
     void Print(ostream& ost) const;
 
 private:
-    multimap<Date, string> it_db;
+    map<Date, vector<string>> db;
 };
 
 #endif // DATABASE_H
