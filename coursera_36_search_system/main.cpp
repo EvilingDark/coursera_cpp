@@ -187,6 +187,47 @@ void TestBasicSearch()
     TestFunctionality(docs, queries, expected);
 }
 
+void Test6()
+{
+    const vector<string> docs = {
+        "a   b c   d",
+        "  a b c d",
+        "   c  d e f   ",
+        "d  e f    g"
+    };
+
+    const vector<string> queries = {
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "b  c   d  f",
+        "cde g",
+        " c d",
+        "  a b  ",
+        "g    "
+    };
+
+    const vector<string> expected = {
+        "a: {docid: 0, hitcount: 1} {docid: 1, hitcount: 1}",
+        "b: {docid: 0, hitcount: 1} {docid: 1, hitcount: 1}",
+        "c: {docid: 0, hitcount: 1} {docid: 1, hitcount: 1} {docid: 2, hitcount: 1}",
+        "d: {docid: 0, hitcount: 1} {docid: 1, hitcount: 1} {docid: 2, hitcount: 1} {docid: 3, hitcount: 1}",
+        "e: {docid: 2, hitcount: 1} {docid: 3, hitcount: 1}",
+        "f: {docid: 2, hitcount: 1} {docid: 3, hitcount: 1}",
+        "g: {docid: 3, hitcount: 1}",
+        "b  c   d  f: {docid: 0, hitcount: 3} {docid: 1, hitcount: 3} {docid: 2, hitcount: 3} {docid: 3, hitcount: 2}",
+        "cde g: {docid: 3, hitcount: 1}",
+        " c d: {docid: 0, hitcount: 2} {docid: 1, hitcount: 2} {docid: 2, hitcount: 2} {docid: 3, hitcount: 1}",
+        "  a b  : {docid: 0, hitcount: 2} {docid: 1, hitcount: 2}",
+        "g    : {docid: 3, hitcount: 1}"
+    };
+    TestFunctionality(docs, queries, expected);
+}
+
 int main()
 {
     TestRunner tr;
@@ -195,4 +236,5 @@ int main()
     RUN_TEST(tr, TestHitcount);
     RUN_TEST(tr, TestRanking);
     RUN_TEST(tr, TestBasicSearch);
+    RUN_TEST(tr, Test6);
 }
